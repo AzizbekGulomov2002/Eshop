@@ -17,7 +17,7 @@ class Product(models.Model):
 class ProType(models.Model):
     type = models.ForeignKey(Product, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    # color = models.CharField(max_length=200)
+    color = models.CharField(max_length=200, null=True, blank=True)
     size = models.PositiveBigIntegerField()
     price = models.PositiveBigIntegerField()
     discount = models.PositiveBigIntegerField(null=True, blank=True)
@@ -45,7 +45,6 @@ class Service(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     master = models.ForeignKey(Master, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=255)
-    # images = models.ManyToManyField('Image')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     discount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     desc = models.TextField(null=True, blank=True)
