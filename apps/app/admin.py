@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, Image, ProType, Service, Master, ImageService
+from .models import Cart, CartItem, Category, Marketing, Order, Product, Image, ProType, Service, Master, ImageService
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -48,3 +48,48 @@ class MasterAdmin(admin.ModelAdmin):
     class Meta:
         model = Master
 admin.site.register(Master, MasterAdmin)
+
+
+class MarketAdmin(admin.ModelAdmin):
+    list_display = ["contact"]
+    list_per_page = 10
+    search_fields = ['name']
+    class Meta:
+        model = Marketing
+admin.site.register(Marketing, MarketAdmin)
+
+
+
+# Card and Store
+
+
+class CartItemAdmin(admin.TabularInline):
+    model = CartItem
+    list_display = ['id', "title",  'product', "description"]
+    list_filter = ['prodcut',]
+    readonly_fields = ('cart', 'order', 'product', 'size', 'quantity')
+
+
+class CartAdmin(admin.ModelAdmin):
+    inlines = [CartItemAdmin]
+    list_display = ('session_id', 'num_of_items', 'cart_total', 'completed',
+                    'id')
+    list_filter = ('completed', 'created_at')
+    list_per_page = 20
+
+class OrderAdmin(admin.ModelAdmin):
+    inlines = [CartItemAdmin]
+    list_display = ('phone_number', 'num_of_items', 'cart_total', 'status', 'id')
+    list_filter = ('status')
+    list_per_page = 20
+
+
+class OrderAdmin(admin.ModelAdmin):
+    inlines = [CartItemAdmin]
+    list_display = ('phone_number', 'num_of_items', 'cart_total', 'status', 'id')
+    list_filter = ('status')
+    list_per_page = 20
+    
+
+admin.site.register(Order, OrderAdmin)
+admin.site.register(Cart, CartAdmin)

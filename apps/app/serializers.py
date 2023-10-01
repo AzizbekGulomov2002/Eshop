@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Product, ProType, Image, Service, Master, ImageService
+from .models import *
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,4 +44,31 @@ class MasterSerializer(serializers.ModelSerializer):
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
+        fields = '__all__'
+        
+class MarketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Marketing
+        fields = '__all__'
+        
+        
+        
+
+# Orders
+
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = '__all__'
+        
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cart
+        fields = '__all__'
+
+class CartItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CartItem
         fields = '__all__'

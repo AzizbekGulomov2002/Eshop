@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
 from rest_framework import viewsets
-from .models import Category, Product, Service,ProType,Image, Master, ImageService
-from .serializers import CategorySerializer, ServiceSerializer, ProductSerializer, MasterSerializer, ProTypeSerializer,ImageSerializer, ImageServiceSerializer
+from .models import Category, Marketing, Order, Product, Service,ProType,Image, Master, ImageService
+from .serializers import CategorySerializer, MarketSerializer, ServiceSerializer, ProductSerializer, MasterSerializer, ProTypeSerializer,ImageSerializer, ImageServiceSerializer
 
 
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -16,6 +16,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from apps.app.filters import  ProductFilter, ProTypeFilter
 
+
+from rest_framework.decorators import api_view
 # Product Page
 class ProductPagination(pagination.PageNumberPagination):
     page_size = 10
@@ -101,3 +103,59 @@ class ServiceViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
+    
+    
+class MarketViewSet(viewsets.ModelViewSet):
+    queryset = Marketing.objects.all().order_by('-id')
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Marketing.objects.all()
+    serializer_class = MarketSerializer
+    
+    
+    
+# Order
+
+
+
+@api_view(['POST'])
+def change_status(request, *args, **kwargs):
+    status = request.data.get('status')
+    id = request.data.get('id')
+    order = get_object_or_404(Order, id=id)
+    order.status = status
+    order.save()
+    return Response({
+        "msg": "Success",
+        "status": 200
+    }, status=200)
+
+@api_view(['GET'])
+def count_products(request, *args, **kwargs):
+    product_images = Image.objects.all()
+    number = 0
+    data = [{
+        'color_id': None,
+        'product_id': None
+    }]
+    for i in product_images:
+        res = {
+            'color_id': i.color_id,
+            'product_id': i.product_id,
+        }
+        # if i.color_id != data['color_id'] and i.product_id != data['product_id']:
+        if res not in data:
+            result = product_images.filter(color_id=i.color_id, product_id=i.product_id)
+            data.append(res)
+            if result.exists():
+                number += 1
+    # print(number)
+    # result = ProductImage.objects.values('product', 'color').annotate(dcount=Count('product')).order_by()
+    # print(result)
+    return Response({
+        "msg": number,
+        "status": 200
+    }, status=200)
+    
+    
+    
+    

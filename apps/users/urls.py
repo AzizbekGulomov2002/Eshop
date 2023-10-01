@@ -21,4 +21,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('auth-token/', obtain_auth_token, name='api_token_auth'),
     
+
 ]
