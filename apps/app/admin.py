@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Cart, CartItem, Category, Marketing, Order, Product, Image, ProType, Service, Master, ImageService
+from .models import *
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -63,33 +63,33 @@ admin.site.register(Marketing, MarketAdmin)
 # Card and Store
 
 
-class CartItemAdmin(admin.TabularInline):
-    model = CartItem
-    list_display = ['id', "title",  'product', "description"]
-    list_filter = ['prodcut',]
-    readonly_fields = ('cart', 'order', 'product', 'size', 'quantity')
+# class CartItemAdmin(admin.TabularInline):
+#     model = CartItem
+#     list_display = ['id', "title",  'product', "description"]
+#     list_filter = ['prodcut',]
+#     readonly_fields = ('cart', 'order', 'product', 'size', 'quantity')
 
 
-class CartAdmin(admin.ModelAdmin):
-    inlines = [CartItemAdmin]
-    list_display = ('session_id', 'num_of_items', 'cart_total', 'completed',
-                    'id')
-    list_filter = ('completed', 'created_at')
-    list_per_page = 20
+# class CartAdmin(admin.ModelAdmin):
+#     inlines = [CartItemAdmin]
+#     list_display = ('session_id', 'num_of_items', 'cart_total', 'completed',
+#                     'id')
+#     list_filter = ('completed', 'created_at')
+#     list_per_page = 20
 
-class OrderAdmin(admin.ModelAdmin):
-    inlines = [CartItemAdmin]
-    list_display = ('phone_number', 'num_of_items', 'cart_total', 'status', 'id')
-    list_filter = ('status')
-    list_per_page = 20
+# class OrderAdmin(admin.ModelAdmin):
+#     inlines = [CartItemAdmin]
+#     list_display = ('phone_number', 'num_of_items', 'cart_total', 'status', 'id')
+#     list_filter = ('status')
+#     list_per_page = 20
 
 
-class OrderAdmin(admin.ModelAdmin):
-    inlines = [CartItemAdmin]
-    list_display = ('phone_number', 'num_of_items', 'cart_total', 'status', 'id')
-    list_filter = ('status')
-    list_per_page = 20
+# class OrderAdmin(admin.ModelAdmin):
+#     inlines = [CartItemAdmin]
+#     list_display = ('phone_number', 'num_of_items', 'cart_total', 'status', 'id')
+#     list_filter = ('status')
+#     list_per_page = 20
     
 
-admin.site.register(Order, OrderAdmin)
-admin.site.register(Cart, CartAdmin)
+# admin.site.register(Order, OrderAdmin)
+# admin.site.register(Cart, CartAdmin)
